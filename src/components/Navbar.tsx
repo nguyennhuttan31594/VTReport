@@ -1,22 +1,16 @@
 'use client';
 
 import React from 'react';
-import { Package, FileSpreadsheet, RefreshCw, Trash2 } from 'lucide-react';
+import { Package, Trash2 } from 'lucide-react';
 
 interface NavbarProps {
-  onOpenExcelModal: () => void;
-  onRefresh: () => void;
   onClearAllData?: () => void;
   hasData?: boolean;
-  isLoading: boolean;
 }
 
 export default function Navbar({
-  onOpenExcelModal,
-  onRefresh,
   onClearAllData,
   hasData,
-  isLoading,
 }: NavbarProps) {
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
@@ -45,31 +39,12 @@ export default function Navbar({
               <button
                 onClick={onClearAllData}
                 title="Xóa toàn bộ dữ liệu hiện tại"
-                className="hidden sm:flex items-center gap-1.5 px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold rounded-xl border border-rose-200 transition-all"
+                className="flex items-center gap-1.5 px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold rounded-xl border border-rose-200 transition-all"
               >
                 <Trash2 className="w-4 h-4 text-rose-600" />
                 <span>Xóa Dữ Liệu</span>
               </button>
             )}
-
-            {/* Refresh */}
-            <button
-              onClick={onRefresh}
-              disabled={isLoading}
-              title="Làm mới dữ liệu"
-              className="p-2 text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition-all"
-            >
-              <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-emerald-600' : ''}`} />
-            </button>
-
-            {/* Excel Upload Button */}
-            <button
-              onClick={onOpenExcelModal}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-xs font-bold rounded-xl shadow-md shadow-emerald-500/20 transition-all"
-            >
-              <FileSpreadsheet className="w-4 h-4" />
-              <span>Tải File Excel</span>
-            </button>
           </div>
         </div>
       </div>

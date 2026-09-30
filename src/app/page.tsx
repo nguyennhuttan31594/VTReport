@@ -214,11 +214,8 @@ export default function HomePage() {
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
       {/* Top Navbar */}
       <Navbar
-        onOpenExcelModal={() => setIsExcelModalOpen(true)}
-        onRefresh={fetchShipments}
         onClearAllData={handleClearAllData}
         hasData={shipments.length > 0}
-        isLoading={isLoading}
       />
 
       {/* TAB NAVIGATION BAR */}
@@ -466,6 +463,7 @@ export default function HomePage() {
                   shipments={filteredShipments}
                   onRenameShipper={handleRenameShipper}
                   onOpenMergeModal={handleOpenMergeModal}
+                  onOpenExcelModal={() => setIsExcelModalOpen(true)}
                 />
               )}
             </section>

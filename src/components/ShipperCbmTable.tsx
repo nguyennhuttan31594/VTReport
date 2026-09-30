@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, ChevronDown, ChevronUp, Trophy, Edit3, GitMerge, AlertTriangle, Download, FileSpreadsheet, Layers, ListFilter } from 'lucide-react';
+import { Search, ChevronDown, ChevronUp, Trophy, Edit3, GitMerge, AlertTriangle, Download, FileSpreadsheet, Layers, ListFilter, Upload } from 'lucide-react';
 import { findDuplicateShipperNames, DuplicateGroup } from '@/lib/fuzzyMatch';
 import * as XLSX from 'xlsx';
 
@@ -19,12 +19,14 @@ interface ShipperCbmTableProps {
   shipments: ShipmentDetail[];
   onRenameShipper?: (oldName: string, newName: string) => Promise<void>;
   onOpenMergeModal?: (duplicates: DuplicateGroup[]) => void;
+  onOpenExcelModal?: () => void;
 }
 
 export default function ShipperCbmTable({
   shipments,
   onRenameShipper,
   onOpenMergeModal,
+  onOpenExcelModal,
 }: ShipperCbmTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedShipper, setExpandedShipper] = useState<string | null>(null);
@@ -221,7 +223,17 @@ export default function ShipperCbmTable({
             </button>
           </div>
 
-          {/* EXPORT EXCEL BUTTON */}
+          {/* UPLOAD & EXPORT EXCEL BUTTONS */}
+          {onOpenExcelModal && (
+            <button
+              onClick={onOpenExcelModal}
+              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl border border-slate-200 flex items-center gap-2 transition-all shrink-0"
+            >
+              <Upload className="w-4 h-4 text-emerald-600" />
+              <span>Tải File Excel</span>
+            </button>
+          )}
+
           <button
             onClick={handleExportExcel}
             disabled={shipperList.length === 0}
