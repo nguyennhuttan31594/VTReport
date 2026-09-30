@@ -5,37 +5,9 @@ import Navbar from '@/components/Navbar';
 import ShipperCbmTable, { ShipmentDetail } from '@/components/ShipperCbmTable';
 import ExcelUploadModal from '@/components/ExcelUploadModal';
 import MergeShipperModal from '@/components/MergeShipperModal';
-import SqlModal from '@/components/SqlModal';
 import { supabase } from '@/lib/supabase';
 import { DuplicateGroup } from '@/lib/fuzzyMatch';
 import { Package, Truck, FileSpreadsheet, Upload, Trash2, Layers, PlusCircle, Calendar, LayoutDashboard } from 'lucide-react';
-
-const SQL_SCRIPT = `-- ========================================================
--- BẢNG DỮ LIỆU SHIPPER & CBM (VT REPORT LOGISTICS)
--- Tiền tố bảng: VTREPORT_
--- ========================================================
-
-DROP TABLE IF EXISTS "VTREPORT_shipment_details" CASCADE;
-
-CREATE TABLE "VTREPORT_shipment_details" (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    shipment_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    cont_no VARCHAR(100),
-    booking_no VARCHAR(100),
-    shipper_name VARCHAR(255) NOT NULL,
-    cbm NUMERIC(10, 2) NOT NULL DEFAULT 0,
-    quantity NUMERIC(10, 2) DEFAULT 0,
-    destination VARCHAR(100),
-    vessel VARCHAR(100),
-    note TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-ALTER TABLE "VTREPORT_shipment_details" ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Allow public select on VTREPORT_shipment_details" ON "VTREPORT_shipment_details" FOR SELECT USING (true);
-CREATE POLICY "Allow public insert on VTREPORT_shipment_details" ON "VTREPORT_shipment_details" FOR INSERT WITH CHECK (true);
-CREATE POLICY "Allow public delete on VTREPORT_shipment_details" ON "VTREPORT_shipment_details" FOR DELETE USING (true);
-`;
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<'cbm_report' | 'all_shipments' | 'future_tab'>('cbm_report');
@@ -50,7 +22,6 @@ export default function HomePage() {
   const [endDate, setEndDate] = useState('');
 
   const [isExcelModalOpen, setIsExcelModalOpen] = useState(false);
-  const [isSqlModalOpen, setIsSqlModalOpen] = useState(false);
   const [isMergeModalOpen, setIsMergeModalOpen] = useState(false);
   const [duplicateGroups, setDuplicateGroups] = useState<DuplicateGroup[]>([]);
 
@@ -244,7 +215,6 @@ export default function HomePage() {
       {/* Top Navbar */}
       <Navbar
         onOpenExcelModal={() => setIsExcelModalOpen(true)}
-        onOpenSqlModal={() => setIsSqlModalOpen(true)}
         onRefresh={fetchShipments}
         onClearAllData={handleClearAllData}
         hasData={shipments.length > 0}
@@ -535,12 +505,6 @@ export default function HomePage() {
         onClose={() => setIsMergeModalOpen(false)}
         duplicates={duplicateGroups}
         onMerge={handleMergeShipper}
-      />
-
-      <SqlModal
-        isOpen={isSqlModalOpen}
-        onClose={() => setIsSqlModalOpen(false)}
-        sqlCode={SQL_SCRIPT}
       />
     </div>
   );

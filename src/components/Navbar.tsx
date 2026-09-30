@@ -1,11 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Package, Database, FileSpreadsheet, RefreshCw, Trash2 } from 'lucide-react';
+import { Package, FileSpreadsheet, RefreshCw, Trash2 } from 'lucide-react';
 
 interface NavbarProps {
   onOpenExcelModal: () => void;
-  onOpenSqlModal: () => void;
   onRefresh: () => void;
   onClearAllData?: () => void;
   hasData?: boolean;
@@ -14,7 +13,6 @@ interface NavbarProps {
 
 export default function Navbar({
   onOpenExcelModal,
-  onOpenSqlModal,
   onRefresh,
   onClearAllData,
   hasData,
@@ -62,15 +60,6 @@ export default function Navbar({
               className="p-2 text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition-all"
             >
               <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-emerald-600' : ''}`} />
-            </button>
-
-            {/* View SQL */}
-            <button
-              onClick={onOpenSqlModal}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl border border-slate-200 transition-all"
-            >
-              <Database className="w-4 h-4 text-blue-600" />
-              <span>Mã SQL</span>
             </button>
 
             {/* Excel Upload Button */}
